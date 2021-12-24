@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0b75409a7d3442d0ad946fcc8335db1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 8814575669657494465}
+  unit: {fileID: 2019931659953684152}
 --- !u!1 &5794796282726645138
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,9 +56,9 @@ GameObject:
   - component: {fileID: 5794796282726645137}
   - component: {fileID: 5794796282726645136}
   - component: {fileID: 5794796282726645139}
-  - component: {fileID: 8814575669657494465}
+  - component: {fileID: 2019931659953684152}
   m_Layer: 0
-  m_Name: Club Man
+  m_Name: Slingshot Man
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -122,7 +122,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: f8a3249bc57764bfb908cd0305b17be9, type: 3}
-  m_Color: {r: 0.4528302, g: 0.2806663, b: 0.06621573, a: 1}
+  m_Color: {r: 0.990566, g: 0.65666425, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -158,7 +158,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &8814575669657494465
+--- !u!114 &2019931659953684152
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,12 +167,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5794796282726645138}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93b974e4e164048eba88ea6ce44422fa, type: 3}
+  m_Script: {fileID: 11500000, guid: a2ddafc088d5e4de1b2ebb8541b41719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   raycaster: {fileID: 3524412480305829133}
-  Name: Club Man
-  type: 0
+  Name: Slingshot Man
+  type: 1
   facing: 0
   owner: 0
   state: 0
@@ -181,4 +181,4 @@ MonoBehaviour:
   health: 0
   damage: 0
   attackDuration: 0
-  trainDuration: 1
+  trainDuration: 1.5

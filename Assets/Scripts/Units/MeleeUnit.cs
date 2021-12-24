@@ -4,5 +4,8 @@ using UnityEngine;
 
 public class MeleeUnit : Unit
 {
-
+    private void OnEnable()
+    {
+        type = UnitType.MELEE;
+    }
 }
