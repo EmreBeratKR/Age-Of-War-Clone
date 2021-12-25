@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class SceneController : MonoBehaviour
 {
+    [SerializeField] private AgeController ageController;
+    [SerializeField] private BaseController baseController;
     [SerializeField] private UnitSpawner unitSpawner;
     [SerializeField] private GameObject unitPanel;
     [SerializeField] private GameObject turretPanel;
@@ -12,6 +14,12 @@ public class SceneController : MonoBehaviour
     [SerializeField] private Transform progressBar;
     [SerializeField] private Text infoText;
     [SerializeField] private Image[] unitSlots;
+    private enum TurretingMode
+    {
+        PUT,
+        SELL
+    }
+    private TurretingMode turretingMode;
 
 
 #region UI Toggles 
@@ -24,14 +32,29 @@ public class SceneController : MonoBehaviour
     public void Toggle_TurretPanel(bool open)
     {
         turretPanel.SetActive(open);
+        if (!open)
+        {
+            baseController.CloseSpots();
+        }
     }
 
     public void Toggle_SellTurretPanel(bool open)
     {
         sellTurretPanel.SetActive(open);
+        if (open)
+        {
+            //baseController.OpenSpots(true);
+            OpenSpotButtons(true);
+        }
+        else
+        {
+            baseController.CloseSpots();
+        }
     }
 
 #endregion
+
+#region UI Updates
 
     public void Update_Queue()
     {
@@ -57,13 +80,63 @@ public class SceneController : MonoBehaviour
     {
         infoText.text = text;
     }
+     
+#endregion
 
-    public void OrderUnit(GameObject unit)
+    public void OrderUnit(int unitIndex)
     {
         if (unitSpawner.unitQueue.Count < 5)
         {
-            unitSpawner.EnQueue_Unit(unit);
+            unitSpawner.EnQueue_Unit(ageController.Get_Unit(unitIndex));
             Update_Queue();
         }
+    }
+
+    public void Evolve()
+    {
+        if (ageController.TryEvolve())
+        {
+            
+        }
+    }
+
+    public void AddTurretSpot()
+    {
+        if (baseController.TryAddSpot())
+        {
+
+        }
+    }
+
+    public void SelectTurret(int turretIndex)
+    {
+        baseController.selectedTurret = turretIndex;
+        OpenSpotButtons(false);
+    }
+
+    public void Turreting(int spotIndex)
+    {
+        baseController.spotButtons[spotIndex].SetActive(false);
+        if (turretingMode == TurretingMode.PUT)
+        {
+            baseController.PutTurret(spotIndex);
+        }
+        else
+        {
+            baseController.SellTurret(spotIndex);
+        }
+    }
+
+    public void OpenSpotButtons(bool forSale)
+    {
+        if (forSale)
+        {
+            turretingMode = TurretingMode.SELL;
+        }
+        else
+        {
+            turretingMode = TurretingMode.PUT;
+        }
+        baseController.OpenSpots(forSale);
     }
 }

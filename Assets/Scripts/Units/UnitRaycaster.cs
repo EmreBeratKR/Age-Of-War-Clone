@@ -5,13 +5,14 @@ using UnityEngine;
 public class UnitRaycaster : MonoBehaviour
 {
     [SerializeField] private Unit unit;
+    public const float maxDistance = 500f;
 
 
     public Unit.State Get_State()
     {
         if (unit.type == Unit.UnitType.RANGED)
         {
-            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, unit.facing == Unit.Facing.RIGHT ? Vector2.right : Vector2.left);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, unit.facing == Unit.Facing.RIGHT ? Vector2.right : Vector2.left, maxDistance);
             if (hits.Length > 0)
             {
                 RaycastHit2D firstFellow = hits[0];
@@ -74,7 +75,7 @@ public class UnitRaycaster : MonoBehaviour
         }
         else
         {    
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, unit.facing == Unit.Facing.RIGHT ? Vector2.right : Vector2.left);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, unit.facing == Unit.Facing.RIGHT ? Vector2.right : Vector2.left, maxDistance);
             if (hit && hit.collider.gameObject != unit.gameObject)
             {
                 GameObject target = hit.collider.gameObject;
