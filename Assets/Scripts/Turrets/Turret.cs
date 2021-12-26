@@ -26,6 +26,6 @@ public class Turret : MonoBehaviour
     private void FaceToLeft()
     {
         facing = Unit.Facing.LEFT;
-        transform.rotation = Quaternion.Euler(Vector3.up * 180f);
+        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 1f);
     }
 }

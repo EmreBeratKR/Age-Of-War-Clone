@@ -5,6 +5,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     [SerializeField] private UnitRaycaster raycaster;
+    [SerializeField] private UnitAnimator animator;
     public enum UnitType
     {
         MELEE,
@@ -62,12 +63,16 @@ public class Unit : MonoBehaviour
             switch (state)
             {
                 case State.IDLE:
+                animator.Idle();
                     break;
                 case State.WALK:
                     Walk();
                     break;
                 case State.MELEE_ATTACK:
-                    Debug.Log("Melee Attack");
+                    if (attackState != AttackState.ATTACKING)
+                    {
+                        animator.Melee();
+                    }
                     break;
                 case State.RANGED_ATTACK:
                     Debug.Log("Ranged Attack");
@@ -82,12 +87,13 @@ public class Unit : MonoBehaviour
 
     private void Walk()
     {
+        animator.Walk();
         transform.position += (facing == Facing.RIGHT ? Vector3.right : Vector3.left) * Time.deltaTime * 10f;
     }
 
     private void FaceToLeft()
     {
         facing = Facing.LEFT;
-        transform.rotation = Quaternion.Euler(Vector3.up * 180f);
+        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 1f);
     }
 }
