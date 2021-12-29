@@ -57,37 +57,31 @@ public class Unit : MonoBehaviour
 
     private void StateMachine()
     {
-        if (attackState != AttackState.ATTACKING)
+        state = raycaster.Get_State();
+        switch (state)
         {
-            state = raycaster.Get_State();
-            switch (state)
-            {
-                case State.IDLE:
+            case State.IDLE:
                 animator.Idle();
-                    break;
-                case State.WALK:
-                    Walk();
-                    break;
-                case State.MELEE_ATTACK:
-                    if (attackState != AttackState.ATTACKING)
-                    {
-                        animator.Melee();
-                    }
-                    break;
-                case State.RANGED_ATTACK:
-                    Debug.Log("Ranged Attack");
-                    break;
-                case State.WALK_ATTACK:
-                    Walk();
-                    Debug.Log("Walk Attack");
-                    break;
-            }
+                break;
+            case State.WALK:
+                Walk();
+                animator.Walk();
+                break;
+            case State.MELEE_ATTACK:
+                animator.Melee();
+                break;
+            case State.RANGED_ATTACK:
+                animator.Ranged();
+                break;
+            case State.WALK_ATTACK:
+                Walk();
+                animator.WalkAttack();
+                break;
         }
     }
 
     private void Walk()
     {
-        animator.Walk();
         transform.position += (facing == Facing.RIGHT ? Vector3.right : Vector3.left) * Time.deltaTime * 10f;
     }
 
