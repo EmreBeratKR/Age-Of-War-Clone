@@ -140,7 +140,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 684960563915907246}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.43, y: 0, z: 0}
+  m_LocalPosition: {x: 1.7, y: 2.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -463,7 +463,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.38050342, y: 7.30816}
+  m_Offset: {x: -0.7994863, y: 7.30816}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -474,7 +474,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.5424972, y: 14.695614}
+  m_Size: {x: 2.8738678, y: 14.695614}
   m_EdgeRadius: 0
 --- !u!114 &8814575669657494465
 MonoBehaviour:
@@ -496,11 +496,10 @@ MonoBehaviour:
   owner: 0
   state: 0
   attackState: 0
-  cost: 0
-  health: 0
-  damage: 0
-  attackDuration: 0
-  trainDuration: 1
+  cost: 15
+  health: 100
+  damage: 50
+  trainDuration: 0.5
 --- !u!1 &6009368829668005444
 GameObject:
   m_ObjectHideFlags: 0

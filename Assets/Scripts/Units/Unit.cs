@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField] private UnitRaycaster raycaster;
     [SerializeField] private UnitAnimator animator;
+    public UnitRaycaster raycaster;
     public enum UnitType
     {
         MELEE,
@@ -45,8 +45,7 @@ public class Unit : MonoBehaviour
     public int cost;
     public int health;
     public int damage;
-    public const float meleeRange = 5f;
-    public float attackDuration;
+    public const float meleeRange = 4f;
     public float trainDuration;
 
 
@@ -89,5 +88,20 @@ public class Unit : MonoBehaviour
     {
         facing = Facing.LEFT;
         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, 1f);
+    }
+
+    private void Die()
+    {
+        Debug.Log(Name + " Dead!");
+        Destroy(gameObject);
+    }
+
+    public void DealDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Die();
+        }
     }
 }

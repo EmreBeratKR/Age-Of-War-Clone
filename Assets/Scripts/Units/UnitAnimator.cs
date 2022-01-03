@@ -66,4 +66,16 @@ public class UnitAnimator : MonoBehaviour
     {
         unit.attackState = Unit.AttackState.DONE;
     }
+
+    public void OnDamage()
+    {
+        if (unit.raycaster.opponentBase != null)
+        {
+            unit.raycaster.opponentBase.DealDamage(unit.damage);
+        }
+        else
+        {
+            unit.raycaster.target.DealDamage(unit.damage);
+        }
+    }
 }

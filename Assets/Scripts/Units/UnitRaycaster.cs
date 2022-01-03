@@ -6,13 +6,18 @@ public class UnitRaycaster : MonoBehaviour
 {
     [SerializeField] private Unit unit;
     public const float maxDistance = 500f;
+    public Unit target;
+    public BaseController opponentBase;
 
 
     public Unit.State Get_State()
     {
+        target = null;
+        opponentBase = null;
         if (unit.type == Unit.UnitType.RANGED)
         {
             RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, unit.facing == Unit.Facing.RIGHT ? Vector2.right : Vector2.left, maxDistance);
+            Debug.DrawLine(transform.position, transform.position + Vector3.right * maxDistance, Color.magenta, Time.fixedDeltaTime);
             if (hits.Length > 0)
             {
                 RaycastHit2D firstFellow = hits[0];
@@ -47,24 +52,28 @@ public class UnitRaycaster : MonoBehaviour
                     {
                         if (RangedUnit.attackRange >= firstEnemy.distance)
                         {
+                            target = firstEnemy.collider.GetComponent<Unit>();
                             return Unit.meleeRange >= firstFellow.distance ? Unit.State.RANGED_ATTACK : Unit.State.WALK_ATTACK;
                         }
                         return Unit.meleeRange >= firstFellow.distance ? Unit.State.IDLE : Unit.State.WALK;
                     }
                     if (RangedUnit.attackRange >= enemyBase.distance)
                     {
+                        opponentBase = enemyBase.collider.GetComponent<BaseController>();
                         return Unit.meleeRange >= firstFellow.distance ? Unit.State.RANGED_ATTACK : Unit.State.WALK_ATTACK;
                     }
                     return Unit.meleeRange >= firstFellow.distance ? Unit.State.IDLE : Unit.State.WALK;
                 }
                 if (found_FirstEnemy)
                 {
+                    target = firstEnemy.collider.GetComponent<Unit>();
                     if (Unit.meleeRange >= firstFellow.distance)
                     {
                         return Unit.State.MELEE_ATTACK;
                     }
                     return RangedUnit.attackRange >= firstEnemy.distance ? Unit.State.WALK_ATTACK : Unit.State.WALK;
                 }
+                opponentBase = enemyBase.collider.GetComponent<BaseController>();
                 if (Unit.meleeRange >= enemyBase.distance)
                 {
                     return Unit.State.MELEE_ATTACK;
@@ -78,12 +87,12 @@ public class UnitRaycaster : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(transform.position, unit.facing == Unit.Facing.RIGHT ? Vector2.right : Vector2.left, maxDistance);
             if (hit && hit.collider.gameObject != unit.gameObject)
             {
-                GameObject target = hit.collider.gameObject;
-                switch (target.tag)
+                GameObject tar = hit.collider.gameObject;
+                switch (tar.tag)
                 {
                     case "Unit":
                     {
-                        Unit targetUnit = target.GetComponent<Unit>();
+                        Unit targetUnit = tar.GetComponent<Unit>();
                         if (Unit.meleeRange < hit.distance)
                         {
                             return Unit.State.WALK;
@@ -92,12 +101,14 @@ public class UnitRaycaster : MonoBehaviour
                         {
                             return Unit.State.IDLE;
                         }
+                        target = targetUnit;
                         return Unit.State.MELEE_ATTACK;
                     }
                     case "Base":
                     {
                         if (Unit.meleeRange >= hit.distance)
                         {
+                            opponentBase = tar.GetComponent<BaseController>();
                             return Unit.State.MELEE_ATTACK;
                         }
                         return Unit.State.WALK;

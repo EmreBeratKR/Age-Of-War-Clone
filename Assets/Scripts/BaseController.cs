@@ -5,12 +5,14 @@ using UnityEngine;
 public class BaseController : MonoBehaviour
 {
     [SerializeField] private AgeController ageController;
+    [SerializeField] private Unit.Owner owner;
     public Transform[] spots;
     public GameObject[] spotButtons;
     public int spotCount;
     public int selectedTurret;
     public int gold;
     public int experience;
+    public int health;
 
 
     public void OpenSpots(bool forSale)
@@ -59,6 +61,15 @@ public class BaseController : MonoBehaviour
         if (spots[spotIndex].childCount != 0)
         {
             Destroy(spots[spotIndex].GetChild(0).gameObject);
+        }
+    }
+
+    public void DealDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Debug.Log(owner + " defeated!");
         }
     }
 }
