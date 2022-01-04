@@ -5,6 +5,7 @@ using UnityEngine;
 public class BaseController : MonoBehaviour
 {
     [SerializeField] private AgeController ageController;
+    [SerializeField] private Transform healthBar;
     [SerializeField] private Unit.Owner owner;
     public Transform[] spots;
     public GameObject[] spotButtons;
@@ -12,8 +13,19 @@ public class BaseController : MonoBehaviour
     public int selectedTurret;
     public int gold;
     public int experience;
-    public int health;
+    public const float startHealth = 2000f;
+    private int health;
 
+
+    private void Start()
+    {
+        health = (int) startHealth;
+    }
+
+    private void Update_HealthBar()
+    {
+        healthBar.localScale = new Vector3(health/startHealth, 1f, 1f);
+    }
 
     public void OpenSpots(bool forSale)
     {
@@ -69,7 +81,8 @@ public class BaseController : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
-            Debug.Log(owner + " defeated!");
+            health = 0;
         }
+        Update_HealthBar();
     }
 }

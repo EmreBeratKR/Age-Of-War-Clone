@@ -5,6 +5,8 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     [SerializeField] private UnitAnimator animator;
+    [SerializeField] private Collider2D _collider;
+    [SerializeField] private Transform healthBar;
     public UnitRaycaster raycaster;
     public enum UnitType
     {
@@ -47,7 +49,20 @@ public class Unit : MonoBehaviour
     public int damage;
     public const float meleeRange = 4f;
     public float trainDuration;
+    private float startHealth;
+    private bool showHealthBar;
 
+
+    private void Start()
+    {
+        startHealth = health;
+        showHealthBar = false;
+    }
+
+    private void OnMouseDown()
+    {
+        Toggle_HealthBar();
+    }
 
     private void FixedUpdate()
     {
@@ -56,26 +71,29 @@ public class Unit : MonoBehaviour
 
     private void StateMachine()
     {
-        state = raycaster.Get_State();
-        switch (state)
+        if (health > 0)
         {
-            case State.IDLE:
-                animator.Idle();
-                break;
-            case State.WALK:
-                Walk();
-                animator.Walk();
-                break;
-            case State.MELEE_ATTACK:
-                animator.Melee();
-                break;
-            case State.RANGED_ATTACK:
-                animator.Ranged();
-                break;
-            case State.WALK_ATTACK:
-                Walk();
-                animator.WalkAttack();
-                break;
+            state = raycaster.Get_State();
+            switch (state)
+            {
+                case State.IDLE:
+                    animator.Idle();
+                    break;
+                case State.WALK:
+                    Walk();
+                    animator.Walk();
+                    break;
+                case State.MELEE_ATTACK:
+                    animator.Melee();
+                    break;
+                case State.RANGED_ATTACK:
+                    animator.Ranged();
+                    break;
+                case State.WALK_ATTACK:
+                    Walk();
+                    animator.WalkAttack();
+                    break;
+            }
         }
     }
 
@@ -92,8 +110,19 @@ public class Unit : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log(Name + " Dead!");
-        Destroy(gameObject);
+        Destroy(_collider);
+        animator.Die();
+    }
+
+    private void Update_HealthBar()
+    {
+        healthBar.localScale = new Vector3(health/startHealth, 1f, 1f);
+    }
+
+    private void Toggle_HealthBar()
+    {
+        showHealthBar = !showHealthBar;
+        healthBar.parent.gameObject.SetActive(showHealthBar);
     }
 
     public void DealDamage(int damage)
@@ -101,7 +130,9 @@ public class Unit : MonoBehaviour
         health -= damage;
         if (health <= 0)
         {
+            health = 0;
             Die();
         }
+        Update_HealthBar();
     }
 }

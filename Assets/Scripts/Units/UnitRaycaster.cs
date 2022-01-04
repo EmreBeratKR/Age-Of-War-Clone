@@ -17,7 +17,6 @@ public class UnitRaycaster : MonoBehaviour
         if (unit.type == Unit.UnitType.RANGED)
         {
             RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, unit.facing == Unit.Facing.RIGHT ? Vector2.right : Vector2.left, maxDistance);
-            Debug.DrawLine(transform.position, transform.position + Vector3.right * maxDistance, Color.magenta, Time.fixedDeltaTime);
             if (hits.Length > 0)
             {
                 RaycastHit2D firstFellow = hits[0];
